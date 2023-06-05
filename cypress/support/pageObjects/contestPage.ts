@@ -2,7 +2,7 @@ import 'cypress-file-upload';
 import 'cypress-wait-until';
 import { v4 as uuid } from 'uuid';
 
-import { ContestOptions, GroupOptions } from '../types';
+import { ContestOptions, GroupOptions, ScoreMode } from '../types';
 import { addSubtractDaysToDate } from '../commands';
 
 export class ContestPage {
@@ -30,8 +30,6 @@ export class ContestPage {
 
         // Extract the usernames from the table
         cy.get('[data-identity-username]').then(($els) => {
-            // we get a list of jQuery elements
-            // let's convert the jQuery object into a plain array
             const userNames: Array<string> = [];
             Cypress.$.makeArray($els).forEach((element) => {
                 cy.task('log', element.innerText);
@@ -44,8 +42,6 @@ export class ContestPage {
         // Extract the passwords from the table
         const uploadedPasswords: Array<string> = [];
         cy.get('[data-identity-password]').then(($els) => {
-            // we get a list of jQuery elements
-            // let's convert the jQuery object into a plain array
             uploadedPasswords.concat(
                 Cypress.$.makeArray($els).map((el) => el.innerText),
             );
@@ -79,8 +75,6 @@ export class ContestPage {
 
         // Extract the usernames from the table
         cy.get('[data-uploaded-contestants]').then(($els) => {
-            // we get a list of jQuery elements
-            // let's convert the jQuery object into a plain array
             const constestantNames: Array<string> = [];
             Cypress.$.makeArray($els).forEach((element) => {
                 cy.task('log', element.innerText);
@@ -152,13 +146,7 @@ export class ContestPage {
 
     generateContestOptions(): ContestOptions {
         const now = new Date();
-   
-        enum ScoreMode {
-          AllOrNothing = 'all_or_nothing',
-          Partial = 'partial',
-          MaxPerGroup = 'max_per_group',
-        }
-     
+
         const contestOptions: ContestOptions = {
           contestAlias: 'contest' + uuid().slice(0, 5),
           description: 'Test Description',
@@ -189,7 +177,7 @@ export class ContestPage {
         };
      
         return contestOptions;
-    }
+    };
 }
 
 export const contestPage = new ContestPage();

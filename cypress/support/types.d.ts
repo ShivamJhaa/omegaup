@@ -34,7 +34,7 @@ export interface CourseOptions {
   description?: string;
 }
 
-declare enum ScoreMode {
+export declare enum ScoreMode {
   AllOrNothing = 'all_or_nothing',
   Partial = 'partial',
   MaxPerGroup = 'max_per_group',
