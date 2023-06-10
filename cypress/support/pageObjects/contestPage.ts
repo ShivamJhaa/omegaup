@@ -2,8 +2,14 @@ import 'cypress-file-upload';
 import 'cypress-wait-until';
 import { v4 as uuid } from 'uuid';
 
-import { ContestOptions, GroupOptions, ScoreMode } from '../types';
+import { ContestOptions, GroupOptions } from '../types';
 import { addSubtractDaysToDate } from '../commands';
+
+enum ScoreMode {
+    AllOrNothing = 'all_or_nothing',
+    Partial = 'partial',
+    MaxPerGroup = 'max_per_group',
+    }
 
 export class ContestPage {
     createGroup(groupOptions: GroupOptions): void {
