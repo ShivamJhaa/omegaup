@@ -247,8 +247,8 @@
           ></b-spinner>
         </b-tab>
         <b-tab
-          data-nav-past-button
           ref="pastContestTab"
+          data-nav-past-button
           class="scroll-content"
           :title="T.contestListPast"
           :title-link-class="titleLinkClass(ContestTab.Past)"
