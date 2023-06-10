@@ -103,7 +103,7 @@ export class ContestPage {
     cy.get('[data-form-clarification-message]').should('have.text', question);
   }
 
-  answerClarification(contestOptions: ContestOptions, answer: string) {
+  answerClarification(contestOptions: ContestOptions, answer: string): void {
     cy.loginAdmin();
     cy.visit(`/arena/${contestOptions.contestAlias}/`);
     cy.get('a[href="#clarifications"]').click();
