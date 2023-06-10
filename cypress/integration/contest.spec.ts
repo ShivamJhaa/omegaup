@@ -4,6 +4,7 @@ import {
 } from '../support/types';
 import { contestPage } from '../support/pageObjects/contestPage';
 import { loginPage } from '../support/pageObjects/loginPage';
+import { addSubtractDaysToDate } from '../support/commands';
 
 
 describe('Contest Test', () => {
