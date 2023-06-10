@@ -9,35 +9,28 @@ enum ScoreMode {
     AllOrNothing = 'all_or_nothing',
     Partial = 'partial',
     MaxPerGroup = 'max_per_group',
-    }
+}
 
 export class ContestPage {
     createGroup(groupOptions: GroupOptions): void {
         cy.get('[data-nav-user]').click();
         cy.get('[data-nav-user-groups]').click();
 
-        // Click on the button to create a new group
         cy.get('[href="/group/new/"]').click();
 
-        // Fill out the form to create a new group
         cy.get('[name="title"]').type(groupOptions.groupTitle);
         cy.get('[name="description"]').type(groupOptions.groupDescription);
 
-        // Submit the form to create the group
         cy.get('[data-group-new]').submit();
     }
 
     addIdentitiesGroup(): void {
-        // Navigate to the "Identities" tab
         cy.get('[href="#identities"]').click();
-
-        // Upload a CSV file
         cy.get('[name="identities"]').attachFile('identities.csv');
 
-        // Extract the usernames from the table
-        cy.get('[data-identity-username]').then(($els) => {
+        cy.get('[data-identity-username]').then((rawHTMLElements) => {
             const userNames: Array<string> = [];
-            Cypress.$.makeArray($els).forEach((element) => {
+            Cypress.$.makeArray(rawHTMLElements).forEach((element) => {
                 cy.task('log', element.innerText);
                 userNames.push(element.innerText);
             });
@@ -45,11 +38,10 @@ export class ContestPage {
             cy.wrap(userNames).as('userNamesList');
         });
 
-        // Extract the passwords from the table
         const uploadedPasswords: Array<string> = [];
-        cy.get('[data-identity-password]').then(($els) => {
+        cy.get('[data-identity-password]').then((rawHTMLElements) => {
             uploadedPasswords.concat(
-                Cypress.$.makeArray($els).map((el) => el.innerText),
+                Cypress.$.makeArray(rawHTMLElements).map((el) => el.innerText),
             );
         });
 
@@ -59,14 +51,12 @@ export class ContestPage {
             return cy.get('#alert-close').should('not.be.visible');
         });
 
-        // Navigate to the "Members" tab
         cy.get('[href="#members"]').click();
-
         cy.get('@userNamesList').then((textArray) => {
             cy.get('[data-members-username]')
                 .should('have.length', textArray.length)
-                .then(($els) => {
-                    return Cypress.$.makeArray($els).map((el) => el.innerText);
+                .then((rawHTMLElements) => {
+                    return Cypress.$.makeArray(rawHTMLElements).map((el) => el.innerText);
                 })
                 .should('deep.equal', textArray);
         });
@@ -79,10 +69,9 @@ export class ContestPage {
         cy.get('textarea[data-contestant-names]').type(users.join(', '));
         cy.get('.user-add-bulk').click();
 
-        // Extract the usernames from the table
-        cy.get('[data-uploaded-contestants]').then(($els) => {
+        cy.get('[data-uploaded-contestants]').then((rawHTMLElements) => {
             const constestantNames: Array<string> = [];
-            Cypress.$.makeArray($els).forEach((element) => {
+            Cypress.$.makeArray(rawHTMLElements).forEach((element) => {
                 cy.task('log', element.innerText);
                 constestantNames.push(element.innerText);
             });
@@ -123,7 +112,7 @@ export class ContestPage {
         })
     };
 
-    createContestAdmin(contestOptions: ContestOptions, users: Array<string>): void {
+    createContestAsAdmin(contestOptions: ContestOptions, users: Array<string>): void {
         cy.loginAdmin();
         cy.createContest(contestOptions);
 
@@ -154,36 +143,36 @@ export class ContestPage {
         const now = new Date();
 
         const contestOptions: ContestOptions = {
-          contestAlias: 'contest' + uuid().slice(0, 5),
-          description: 'Test Description',
-          startDate: addSubtractDaysToDate(now, {days: -1}),
-          endDate: addSubtractDaysToDate(now, {days: 2}),
-          showScoreboard: true,
-          basicInformation: false,
-          scoreMode: ScoreMode.Partial,
-          requestParticipantInformation: 'no',
-          admissionMode: 'public',
-          problems: [
-            {
-              problemAlias: 'sumas',
-              tag: 'Recursion',
-              autoCompleteTextTag: 'Recur',
-              problemLevelIndex: 1,
-            },
-          ],
-          runs: [
-            {
-              problemAlias: 'sumas',
-              fixturePath: 'main.cpp',
-              language: 'cpp11-gcc',
-              valid: true,
-              status: 'AC'
-            }
-          ]
+            contestAlias: 'contest' + uuid().slice(0, 5),
+            description: 'Test Description',
+            startDate: addSubtractDaysToDate(now, { days: -1 }),
+            endDate: addSubtractDaysToDate(now, { days: 2 }),
+            showScoreboard: true,
+            basicInformation: false,
+            scoreMode: ScoreMode.Partial,
+            requestParticipantInformation: 'no',
+            admissionMode: 'public',
+            problems: [
+                {
+                    problemAlias: 'sumas',
+                    tag: 'Recursion',
+                    autoCompleteTextTag: 'Recur',
+                    problemLevelIndex: 1,
+                },
+            ],
+            runs: [
+                {
+                    problemAlias: 'sumas',
+                    fixturePath: 'main.cpp',
+                    language: 'cpp11-gcc',
+                    valid: true,
+                    status: 'AC'
+                }
+            ]
         };
-     
+
         return contestOptions;
-    };
+    }
 }
 
 export const contestPage = new ContestPage();

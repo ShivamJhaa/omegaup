@@ -1,8 +1,10 @@
 import { v4 as uuid } from 'uuid';
-import { GroupOptions } from '../support/types';
+import {
+  GroupOptions,
+} from '../support/types';
 import { contestPage } from '../support/pageObjects/contestPage';
 import { loginPage } from '../support/pageObjects/loginPage';
-import { addSubtractDaysToDate } from '../support/commands';
+
 
 describe('Contest Test', () => {
   beforeEach(() => {
@@ -12,7 +14,7 @@ describe('Contest Test', () => {
   });
 
   it('Should create a contest and retrieve it', () => {
-    const userLoginOptions = loginPage.registerMultileUsers(2);
+    const userLoginOptions = loginPage.registerMultipleUsers(2);
 
     const groupOptions: GroupOptions = {
       groupTitle: 'ut_group_' + uuid(),
@@ -27,7 +29,7 @@ describe('Contest Test', () => {
     const contestOptions = contestPage.generateContestOptions();
 
     const users = [userLoginOptions[0].username, userLoginOptions[1].username];
-    contestPage.createContestAdmin(contestOptions, users);
+    contestPage.createContestAsAdmin(contestOptions, users);
 
     cy.login(userLoginOptions[0]);
     cy.enterContest(contestOptions);
@@ -41,22 +43,16 @@ describe('Contest Test', () => {
     cy.get('a[data-nav-contests-arena]').click();
     cy.get(`a[href="/arena/${contestOptions.contestAlias}/"]`).first().click();
     cy.get('a[href="#ranking"]').click();
-    cy.get('[data-table-scoreboard-username]')
-      .first()
-      .should('contain', userLoginOptions[0].username);
-    cy.get('[data-table-scoreboard-username]')
-      .last()
-      .should('contain', userLoginOptions[1].username);
+    cy.get('[data-table-scoreboard-username]').first().should('contain', userLoginOptions[0].username);
+    cy.get('[data-table-scoreboard-username]').last().should('contain', userLoginOptions[1].username);
     cy.logout();
   });
 
-  it('Should create a contest and add a clarification.', () => {
+  it.only('Should create a contest and add a clarification.', () => {
     const contestOptions = contestPage.generateContestOptions();
-    const userLoginOptions = loginPage.registerMultileUsers(1);
+    const userLoginOptions = loginPage.registerMultipleUsers(1);
 
-    contestPage.createContestAdmin(contestOptions, [
-      userLoginOptions[0].username,
-    ]);
+    contestPage.createContestAsAdmin(contestOptions, [userLoginOptions[0].username]);
 
     cy.login(userLoginOptions[0]);
     cy.enterContest(contestOptions);
@@ -68,7 +64,7 @@ describe('Contest Test', () => {
     cy.get('a[data-nav-contests-arena]').click();
     cy.get(`a[href="/arena/${contestOptions.contestAlias}/"]`).first().click();
     cy.get('a[href="#clarifications"]').click();
-    cy.get('[data-tab-clarifications]').should('be.visible');
+    cy.get('[data-tab-clarifications]').should('be.visible')
     cy.get('[data-select-answer]').select('No');
     cy.get('[data-form-clarification-answer]').submit();
     cy.get('[data-form-clarification-resolved-answer]').should('contain', 'No');
@@ -77,7 +73,7 @@ describe('Contest Test', () => {
 
   it('Should create a contest and review ranking', () => {
     const contestOptions = contestPage.generateContestOptions();
-    const userLoginOptions = loginPage.registerMultileUsers(4);
+    const userLoginOptions = loginPage.registerMultipleUsers(4);
 
     const groupOptions: GroupOptions = {
       groupTitle: 'ut_group_' + uuid(),
@@ -94,7 +90,7 @@ describe('Contest Test', () => {
       users.push(loginDetails.username);
     });
 
-    contestPage.createContestAdmin(contestOptions, users);
+    contestPage.createContestAsAdmin(contestOptions, users);
 
     cy.login(userLoginOptions[0]);
     cy.enterContest(contestOptions);
