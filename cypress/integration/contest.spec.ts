@@ -48,7 +48,7 @@ describe('Contest Test', () => {
     cy.logout();
   });
 
-  it.only('Should create a contest and add a clarification.', () => {
+  it('Should create a contest and add a clarification.', () => {
     const contestOptions = contestPage.generateContestOptions();
     const userLoginOptions = loginPage.registerMultipleUsers(1);
 
@@ -123,13 +123,13 @@ describe('Contest Test', () => {
     ' time has finished',
     () => {
       const contestOptions = contestPage.generateContestOptions();
-      const userLoginOptions = loginPage.registerMultileUsers(2);
+      const userLoginOptions = loginPage.registerMultipleUsers(2);
       const users = [
         userLoginOptions[0].username,
         userLoginOptions[1].username,
       ];
 
-      contestPage.createContestAdmin(contestOptions, users);
+      contestPage.createContestAsAdmin(contestOptions, users);
 
       cy.login(userLoginOptions[0]);
       cy.enterContest(contestOptions);
@@ -159,7 +159,7 @@ describe('Contest Test', () => {
 
   it('Should give a past contest as a virtual contest', () => {
     const contestOptions = contestPage.generateContestOptions();
-    const userLoginOptions = loginPage.registerMultileUsers(1);
+    const userLoginOptions = loginPage.registerMultipleUsers(1);
     const users = [userLoginOptions[0].username];
 
     const now = new Date();
@@ -167,7 +167,7 @@ describe('Contest Test', () => {
     contestOptions.startDate = addSubtractDaysToDate(now, { days: -1 });
     contestOptions.endDate = now;
 
-    contestPage.createContestAdmin(contestOptions, users);
+    contestPage.createContestAsAdmin(contestOptions, users);
 
     cy.login(userLoginOptions[0]);
     const virtualContestUrl = `/contest/${contestOptions.contestAlias}/virtual/`;
