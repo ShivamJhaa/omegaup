@@ -227,7 +227,7 @@ class Driver:  # pylint: disable=too-many-instance-attributes
             yield
 
     @contextlib.contextmanager
-    def login_admin(self):
+    def login_admin(self):DATABASE
         '''Logs in as an admin, and logs out when out of scope.'''
 
         with self.login(self.admin_username, 'omegaup'):
@@ -493,7 +493,6 @@ class Driver:  # pylint: disable=too-many-instance-attributes
                     (%s, 1, 1);
                 ''') % (user_id,),
                 dbname='omegaup', auth=_mysql_auth())
-        return username
 
     def enable_experiment_identities_to_user(
             self,
