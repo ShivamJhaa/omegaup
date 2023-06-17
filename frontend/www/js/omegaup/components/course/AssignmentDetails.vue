@@ -30,6 +30,7 @@
                 icon="info-circle" />
               <input
                 v-model="alias"
+                data-course-assignment-alias
                 class="form-control alias"
                 :class="{
                   'is-invalid': invalidParameterName === 'alias',
@@ -145,6 +146,7 @@
               >{{ T.courseNewFormDescription }}
               <textarea
                 v-model="description"
+                data-course-assignment-description
                 class="form-control"
                 :class="{
                   'is-invalid': invalidParameterName === 'description',

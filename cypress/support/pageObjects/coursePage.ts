@@ -4,8 +4,6 @@ import { CourseOptions, ProblemOptions } from '../types';
 
 export class CoursePage {
   generateCourseOptions(): CourseOptions {
-    cy.clock(new Date(2022, 2, 31, 22, 19, 0), ['Date']);
-
     const now = new Date();
     const courseOptions: CourseOptions = {
       courseAlias: uuid().slice(0, 10),
@@ -47,15 +45,21 @@ export class CoursePage {
   addAssignmentWithProblem(assignmentAlias: string, problemOptions: ProblemOptions): void {
     cy.get('[data-course-edit-content]').click();
     cy.get('div[data-content-tab]').should('be.visible');
+
     cy.get('button[data-course-add-new-content]').click();
 
     cy.get('.omegaup-course-assignmentdetails').should('be.visible');
     cy.get('[data-course-assignment-name]').type(assignmentAlias);
-    cy.pause();
-    
-
-
-
+    cy.get('[data-course-assignment-alias]').type(assignmentAlias.slice(0, 10));
+    cy.get('[data-course-add-problem]').should('be.visible');
+    cy.get('[data-course-assignment-description]').type('Homework Description');
+    cy.get('.tags-input input[type="text"]').type(problemOptions.problemAlias);
+    cy.get('.typeahead-dropdown li').first().click();
+    cy.get('button[data-add-problem]').click();
+    cy.get('[data-course-problemlist] table.table-striped').should('be.visible');
+    cy.get('button[data-schedule-assignment]').click();
+    cy.get('.alert-success').should('contain', 'Content added successfully!');
+    cy.get('.omegaup-course-assignmentdetails').should('not.be.visible');
   }
 
   createCourse(courseOptions: CourseOptions): void {
