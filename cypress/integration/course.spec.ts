@@ -14,6 +14,7 @@ describe('Course Test', () => {
     const loginOptions = loginPage.registerMultipleUsers(1);
     const users = [loginOptions[0].username];
     const courseOptions = coursePage.generateCourseOptions();
+    const assignmentAlias = 'ut_rank_hw_' + uuid();
     const problemOptions: ProblemOptions = {
       problemAlias: uuid().slice(0, 10),
       tag: 'Recursion',
@@ -25,7 +26,7 @@ describe('Course Test', () => {
     cy.createProblem(problemOptions);
     cy.createCourse(courseOptions);
     coursePage.addStudents(users);
-    coursePage.addAssignmentWithProblem(courseOptions, problemOptions);
+    coursePage.addAssignmentWithProblem(assignmentAlias, problemOptions);
     cy.pause();
     cy.logout();
   });

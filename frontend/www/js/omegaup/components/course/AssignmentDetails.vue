@@ -13,6 +13,7 @@
               >{{ T.wordsTitle }}
               <input
                 ref="name"
+                data-course-assignment-name
                 v-model="name"
                 class="form-control name"
                 :class="{ 'is-invalid': invalidParameterName === 'name' }"

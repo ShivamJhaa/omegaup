@@ -44,12 +44,13 @@ export class CoursePage {
     cy.get('@savedStudentsNames').should('deep.equal', users);
   }
 
-  addAssignmentWithProblem(courseOptions: CourseOptions, problemOptions: ProblemOptions): void {
+  addAssignmentWithProblem(assignmentAlias: string, problemOptions: ProblemOptions): void {
     cy.get('[data-course-edit-content]').click();
     cy.get('div[data-content-tab]').should('be.visible');
     cy.get('button[data-course-add-new-content]').click();
 
     cy.get('.omegaup-course-assignmentdetails').should('be.visible');
+    cy.get('[data-course-assignment-name]').type(assignmentAlias);
     cy.pause();
     
 
