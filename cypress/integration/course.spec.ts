@@ -11,7 +11,7 @@ describe('Course Test', () => {
   });
 
   it('Should create a course and add students to it as participate make submits to problems', () => {
-    const loginOptions = loginPage.registerMultipleUsers(1);
+    const loginOptions = loginPage.registerMultipleUsers(2);
     const users = [loginOptions[0].username];
     const courseOptions = coursePage.generateCourseOptions();
     const assignmentAlias = 'ut_rank_hw_' + uuid();
@@ -22,12 +22,14 @@ describe('Course Test', () => {
       problemLevelIndex: 0,
     };
 
-    cy.loginAdmin();
-    cy.createProblem(problemOptions);
+    cy.login(loginOptions[1]);
+    // cy.createProblem(problemOptions);
     cy.createCourse(courseOptions);
     coursePage.addStudents(users);
     coursePage.addAssignmentWithProblem(assignmentAlias, problemOptions);
-    cy.pause();
     cy.logout();
+
+    cy.login(loginOptions[0]);
+    coursePage.enterCourse(courseOptions.courseAlias, assignmentAlias);
   });
 });

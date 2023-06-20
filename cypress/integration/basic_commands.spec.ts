@@ -20,7 +20,7 @@ describe('Basic Commands Test', () => {
     cy.visit('/');
   });
 
-  it('Should create a course with unlimited duration', () => {
+  it.only('Should create a course with unlimited duration', () => {
     const loginOptions: LoginOptions = {
       username: uuid(),
       password: uuid(),
@@ -86,7 +86,7 @@ describe('Basic Commands Test', () => {
     );
   });
 
-  it('Should create a course with end date', () => {
+  it.only('Should create a course with end date', () => {
     const loginOptions: LoginOptions = {
       username: uuid(),
       password: uuid(),

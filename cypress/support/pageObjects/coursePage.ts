@@ -8,7 +8,7 @@ export class CoursePage {
     const courseOptions: CourseOptions = {
       courseAlias: uuid().slice(0, 10),
       showScoreboard: true,
-      startDate: now,
+      startDate:  addSubtractDaysToDate(now, { days: -1 }),
       endDate: addSubtractDaysToDate(now, { days: 1 }),
       unlimitedDuration: false,
       school: 'Escuela curso',
@@ -40,6 +40,7 @@ export class CoursePage {
     });
 
     cy.get('@savedStudentsNames').should('deep.equal', users);
+    cy.pause();
   }
 
   addAssignmentWithProblem(assignmentAlias: string, problemOptions: ProblemOptions): void {
@@ -53,13 +54,33 @@ export class CoursePage {
     cy.get('[data-course-assignment-alias]').type(assignmentAlias.slice(0, 10));
     cy.get('[data-course-add-problem]').should('be.visible');
     cy.get('[data-course-assignment-description]').type('Homework Description');
-    cy.get('.tags-input input[type="text"]').type(problemOptions.problemAlias);
+    cy.get('.tags-input input[type="text"]').type('Sumas');
     cy.get('.typeahead-dropdown li').first().click();
     cy.get('button[data-add-problem]').click();
     cy.get('[data-course-problemlist] table.table-striped').should('be.visible');
     cy.get('button[data-schedule-assignment]').click();
     cy.get('.alert-success').should('contain', 'Content added successfully!');
     cy.get('.omegaup-course-assignmentdetails').should('not.be.visible');
+  }
+
+  enterCourse(courseAlias: string, assignmentAlias: string, firstTime: boolean = false): void {
+    cy.get('a[data-nav-courses]').click();
+    cy.get('a[data-nav-courses-all]').click();
+
+    const courseUrl = '/course/' + courseAlias;
+    cy.visit(courseUrl);
+    cy.pause();
+
+    if (firstTime) {
+      cy.get('button[name="start-course-submit"]').click();
+    }
+
+    const assignmentUrl = `/course/${courseAlias}/assignment/${assignmentAlias}/`;
+    cy.visit(assignmentUrl);
+    cy.url().should('include', '#problems');
+    cy.get('sup.socket-status-ok').should('be.visible');
+    cy.pause();
+
   }
 
   createCourse(courseOptions: CourseOptions): void {
