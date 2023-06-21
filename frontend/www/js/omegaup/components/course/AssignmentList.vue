@@ -45,6 +45,7 @@
             </td>
             <td class="text-center">
               <button
+                data-course-edit-content-button
                 v-tooltip="T.courseAssignmentEdit"
                 class="btn btn-link"
                 @click="$emit('emit-edit', assignment)"

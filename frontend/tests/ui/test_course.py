@@ -78,7 +78,7 @@ def test_user_ranking_course(driver):
         driver.wait.until(
             EC.invisibility_of_element_located(
                 (By.CSS_SELECTOR, '[data-overlay-popup] button.close')
-            ))
+            ))assignmentAlias
 
         _click_on_problem(driver, problem)
         driver.wait.until(
