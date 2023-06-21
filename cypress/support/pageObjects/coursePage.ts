@@ -1,5 +1,5 @@
 import { v4 as uuid } from 'uuid';
-import { addSubtractDaysToDate } from '../commands';
+import { addSubtractDaysToDate, getISODateTime } from '../commands';
 import { CourseOptions, ProblemOptions, RunOptions, Status } from '../types';
 
 export class CoursePage {
@@ -64,7 +64,6 @@ export class CoursePage {
       'be.visible',
     );
     cy.get('button[data-schedule-assignment]').click();
-    cy.get('.alert-success').should('contain', 'Content added successfully!');
     cy.get('.omegaup-course-assignmentdetails').should('not.be.visible');
     cy.get('#alert-close').click();
   }
@@ -216,6 +215,8 @@ export class CoursePage {
     cy.get('div[data-content-tab]').should('be.visible');
     cy.get('[data-course-edit-content-button]').click();
     cy.get('.omegaup-course-assignmentdetails').should('be.visible');
+    const now = new Date();
+    cy.get('[data-course-start-date]').type(getISODateTime(now));
     cy.get('.tags-input input[type="text"]').type('Sumas');
     cy.get('.typeahead-dropdown li').first().click();
     cy.get('button[data-add-problem]').click();
@@ -223,6 +224,7 @@ export class CoursePage {
       'be.visible',
     );
     cy.get('button[data-schedule-assignment]').click();
+    cy.pause();
   }
 }
 

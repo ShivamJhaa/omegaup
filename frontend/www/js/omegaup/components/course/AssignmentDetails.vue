@@ -77,6 +77,7 @@
                 :title="T.courseAssignmentNewFormStartDateDesc"
                 icon="info-circle" />
               <omegaup-datetimepicker
+                data-course-start-date
                 v-model="startTime"
                 :enabled="!assignment.has_runs"
                 :finish="finishTimeCourse"
@@ -130,6 +131,7 @@
                 :title="T.courseAssignmentNewFormEndDateDesc"
                 icon="info-circle" />
               <omegaup-datetimepicker
+                data-course-end-date
                 v-model="finishTime"
                 :enabled="!unlimitedDuration"
                 :readonly="false"
