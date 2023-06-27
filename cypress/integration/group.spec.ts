@@ -17,6 +17,11 @@ describe('Group Test', () => {
       groupDescription: 'group description',
     };
 
+    loginPage.giveAdminPrivilage(
+      'GroupIdentityCreator',
+      loginOptions[0].username,
+    );
+
     cy.login(loginOptions[0]);
     contestPage.createGroup(groupOptions);
     contestPage.addIdentitiesGroup();
