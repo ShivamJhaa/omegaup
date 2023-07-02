@@ -45,6 +45,7 @@ export class CoursePage {
 
   addAssignmentWithProblem(
     assignmentAlias: string,
+    shortAlias: string,
     problemOptions: ProblemOptions,
     assignmentType: string = 'now',
   ): void {
@@ -55,7 +56,7 @@ export class CoursePage {
 
     cy.get('.omegaup-course-assignmentdetails').should('be.visible');
     cy.get('[data-course-assignment-name]').type(assignmentAlias);
-    cy.get('[data-course-assignment-alias]').type(assignmentAlias.slice(0, 12));
+    cy.get('[data-course-assignment-alias]').type(shortAlias);
     cy.get('[data-course-add-problem]').should('be.visible');
     cy.get('[data-course-assignment-description]').type('Homework Description');
 
@@ -303,16 +304,36 @@ export class CoursePage {
     );
   }
 
-  toggleScoreboardFilter(user: string, userName: string) {
-    cy.get('[data-scoreboard-options]').select('1');
-    cy.get('[data-table-scoreboard-username]').should('contain', userName);
-    cy.get('[data-table-scoreboard-username]').should('not.contain', user);
-    cy.get('[data-scoreboard-options]').select('2');
-    cy.get('[data-table-scoreboard-username]').should('not.contain', userName);
-    cy.get('[data-table-scoreboard-username]').should('contain', user);
-    cy.get('[data-scoreboard-options]').select('3');
-    cy.get('[data-table-scoreboard-username]').should('contain', userName);
-    cy.get('[data-table-scoreboard-username]').should('contain', user);
+  toggleScoreboardFilter(users: string[], userNames: string[]) {
+    for (let i = 0; i < users.length; i++) {
+      cy.get('[data-scoreboard-options]').select('1');
+      cy.get(`.${users[i]} > [data-table-scoreboard-username]`).should(
+        'contain',
+        userNames[i],
+      );
+      cy.get(`.${users[i]} > [data-table-scoreboard-username]`).should(
+        'not.contain',
+        users[i],
+      );
+      cy.get('[data-scoreboard-options]').select('2');
+      cy.get(`.${users[i]} > [data-table-scoreboard-username]`).should(
+        'not.contain',
+        userNames[i],
+      );
+      cy.get(`.${users[i]} > [data-table-scoreboard-username]`).should(
+        'contain',
+        users[i],
+      );
+      cy.get('[data-scoreboard-options]').select('3');
+      cy.get(`.${users[i]} > [data-table-scoreboard-username]`).should(
+        'contain',
+        userNames[i],
+      );
+      cy.get(`.${users[i]} > [data-table-scoreboard-username]`).should(
+        'contain',
+        users[i],
+      );
+    }
   }
 }
 
