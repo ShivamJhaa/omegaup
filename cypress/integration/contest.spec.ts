@@ -132,10 +132,10 @@ describe('Contest Test', () => {
     cy.get('a[href="#ranking"]').click();
     cy.get('[data-table-scoreboard-username]')
       .first()
-      .should('contain', userLoginOptions[0].username);
+      .should('contain', userLoginOptions[1].username);
     cy.get('[data-table-scoreboard-username]')
       .last()
-      .should('contain', userLoginOptions[1].username);
+      .should('contain', userLoginOptions[2].username);
     cy.logout();
   });
 

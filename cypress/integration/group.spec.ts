@@ -27,4 +27,13 @@ describe('Group Test', () => {
     contestPage.addIdentitiesGroup();
     cy.logout();
   });
+
+  // it('Should create a group with identities', () => {
+  //   const loginOptions = loginPage.registerMultipleUsers(2);
+
+  //   loginPage.giveAdminPrivilage(
+  //     'GroupIdentityCreator',
+  //     loginOptions[0].username,
+  //   );
+  // });
 });
