@@ -1,7 +1,8 @@
 import { v4 as uuid } from 'uuid';
 import { loginPage } from '../support/pageObjects/loginPage';
-import { GroupOptions } from '../support/types';
+import { GroupOptions, TeamGroupOptions } from '../support/types';
 import { contestPage } from '../support/pageObjects/contestPage';
+import { profilePage } from '../support/pageObjects/profilePage';
 
 describe('Group Test', () => {
   beforeEach(() => {
@@ -28,12 +29,22 @@ describe('Group Test', () => {
     cy.logout();
   });
 
-  // it('Should create a group with identities', () => {
-  //   const loginOptions = loginPage.registerMultipleUsers(2);
+  it('Should create a group with identities', () => {
+    const loginOptions = loginPage.registerMultipleUsers(1);
+    const teamGroupOptions: TeamGroupOptions = {
+      groupTitle: 'ut_group_' + uuid(),
+      groupDescription: 'group description',
+      noOfContestants: '2',
+    };
 
-  //   loginPage.giveAdminPrivilage(
-  //     'GroupIdentityCreator',
-  //     loginOptions[0].username,
-  //   );
-  // });
+    loginPage.giveAdminPrivilage(
+      'GroupIdentityCreator',
+      loginOptions[0].username,
+    );
+
+    cy.login(loginOptions[0]);
+    profilePage.createTeamGroup(teamGroupOptions);
+    profilePage.uploadTeamGroups();
+    cy.logout();
+  });
 });
