@@ -124,7 +124,7 @@ export class ContestPage {
     });
   }
 
-  createContestAsAdmin(
+  createContest(
     contestOptions: ContestOptions,
     users: Array<string>,
   ): void {
@@ -166,7 +166,7 @@ export class ContestPage {
       problems: [
         {
           problemAlias: 'sumas',
-          tag: 'Recursion',
+          tag: 'Recursión',
           autoCompleteTextTag: 'Recur',
           problemLevelIndex: 1,
         },

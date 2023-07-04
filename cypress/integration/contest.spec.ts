@@ -28,7 +28,7 @@ describe('Contest Test', () => {
 
     virtualContestDetails = contestOptions;
     cy.login(userLoginOptions[1]);
-    contestPage.createContestAsAdmin(contestOptions, users);
+    contestPage.createContest(contestOptions, users);
     cy.logout();
 
     cy.login(userLoginOptions[0]);
@@ -59,7 +59,7 @@ describe('Contest Test', () => {
 
     contestWithHalfTimeVisibleScoreboard = contestOptions;
     cy.login(userLoginOptions[2]);
-    contestPage.createContestAsAdmin(contestOptions, users);
+    contestPage.createContest(contestOptions, users);
     cy.logout();
 
     cy.login(userLoginOptions[0]);
@@ -86,7 +86,7 @@ describe('Contest Test', () => {
     contestOptions.startDate = addSubtractDaysToDate(now, { days: -1 });
     contestOptions.endDate = addSubtractDaysToDate(now, { days: 1 });
     cy.login(userLoginOptions[1]);
-    contestPage.createContestAsAdmin(contestOptions, users);
+    contestPage.createContest(contestOptions, users);
     cy.logout();
 
     cy.login(userLoginOptions[0]);
@@ -117,7 +117,7 @@ describe('Contest Test', () => {
 
     const users = [userLoginOptions[1].username, userLoginOptions[2].username];
     cy.login(userLoginOptions[0])
-    contestPage.createContestAsAdmin(contestOptions, users);
+    contestPage.createContest(contestOptions, users);
     cy.logout();
 
     cy.login(userLoginOptions[1]);
@@ -144,7 +144,7 @@ describe('Contest Test', () => {
     const userLoginOptions = loginPage.registerMultipleUsers(2);
 
     cy.login(userLoginOptions[1]);
-    contestPage.createContestAsAdmin(contestOptions, [
+    contestPage.createContest(contestOptions, [
       userLoginOptions[0].username,
     ]);
     cy.logout();
@@ -184,7 +184,7 @@ describe('Contest Test', () => {
     });
 
     cy.login(userLoginOptions[4]);
-    contestPage.createContestAsAdmin(contestOptions, users);
+    contestPage.createContest(contestOptions, users);
     cy.logout();
 
     cy.login(userLoginOptions[0]);
@@ -233,7 +233,7 @@ describe('Contest Test', () => {
     contestOptions.endDate = now;
 
     cy.login(userLoginOptions[1]);
-    contestPage.createContestAsAdmin(contestOptions, users);
+    contestPage.createContest(contestOptions, users);
     cy.logout();
 
     cy.login(userLoginOptions[0]);
@@ -270,7 +270,7 @@ describe('Contest Test', () => {
       ];
 
       cy.login(userLoginOptions[2]);
-      contestPage.createContestAsAdmin(contestOptions, users);
+      contestPage.createContest(contestOptions, users);
       cy.logout();
 
       cy.login(userLoginOptions[0]);
@@ -304,7 +304,7 @@ describe('Contest Test', () => {
 
     contestOptions.scoreBoardVisibleTime = '0';
     cy.login(userLoginOptions[1])
-    contestPage.createContestAsAdmin(contestOptions, users);
+    contestPage.createContest(contestOptions, users);
     cy.logout();
 
     cy.login(userLoginOptions[0]);
